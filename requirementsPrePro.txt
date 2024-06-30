@@ -1,0 +1,7 @@
+pandas
+polars
+numpy
+timeit
+runregistry
+matplotlib
+scipy
