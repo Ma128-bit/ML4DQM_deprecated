@@ -59,3 +59,12 @@ APIClient:
     Client_Secret: 'secret_example'
 ```
 Run the notebook: `CSC_AE_getInfo.ipynb`
+
+## Pre-processing
+```=shell
+conda activate PrePro
+```
+Run the notebook: `CSC_AE_preprocessing.ipynb`
+
+## Train Autoencoder
+Run the notebook: `CSC_AE_training.ipynb`
