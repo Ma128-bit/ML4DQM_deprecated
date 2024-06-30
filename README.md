@@ -5,7 +5,7 @@ git colone https://github.com/Ma128-bit/ML4DQM.git
 ```
 
 ## Get Monitoring elements (ME)
-### Requires a working conda installation
+`Requires a working conda installation`
 ```=shell
 conda create --name MEProd python=3.9
 conda activate MEProd
