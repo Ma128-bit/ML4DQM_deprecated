@@ -5,10 +5,7 @@ git colone https://github.com/Ma128-bit/ML4DQM.git
 ```
 
 ## Get Monitoring elements (ME)
-
-:::warning
-Requires a working conda installation
-:::
+### Requires a working conda installation
 ```=shell
 conda create --name MEProd python=3.9
 conda activate MEProd
@@ -49,9 +46,6 @@ Modify `classad/_expression.py` changing `from collections import MutableMapping
 :::
 
 ## Fetch image info
-:::warning
-Requires a working conda installation
-:::
 ```=shell
 conda create --name PrePro python=3.9
 conda activate PrePro
