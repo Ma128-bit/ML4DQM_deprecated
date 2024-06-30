@@ -1,1 +1,67 @@
-# ML4DQM
+# Training DQM Tool for CSC
+
+```
+git colone ...
+```
+
+## Get Monitoring elements (ME)
+
+:::warning
+Requires a working conda installation
+:::
+```=shell
+conda create --name MEProd python=3.9
+conda activate MEProd
+pip3 install -r requirementsMEProd.txt 
+chmod +x submit.sh
+```
+Use `Submit_MEProductions.py` to submit the ME productions with **condor**. List of arguments:
+
+| Argument                   | Default    | Required | Description                                |
+| -------------------------- | :--------: | :------: | ------------------------------------------ |
+| `-w / --workspace`         | csc        | False    | DIALS-workspace                            |
+| `-m / --menames`           |            | True     | One or a list of monitoring elements       |
+| `-d / --dtnames`           |            | False    | One or a list of dataset elements (if None takes all the possible datasets) |
+| `-t / --metype`            |            | True     | Type of monitoring elements h1d or h2d     |
+| `-o / --outputdir`         | test       | False    | Output directory                           |
+| `-c / --conda`             | MEProd     | False    | Conda environment name                     |
+| `-p / --miniconda_path`    |            | True     | Path to the miniconda installation directory |
+| `--min_run`                |            | True     | Minimum run (Not required if `--era`)        |
+| `--max_run`                |            | True     | Maximum run (Not required if `--era`)        |
+| `--max_splits`             | 16         | False    | Number of splits per ME                      |
+| `--era`                    |            | False    | Automatically select the min and max run according to the chosen era (ex: Run2024D)|
+
+Usage example:
+```
+python3 Submit_MEProductions.py -m CSC/CSCOfflineMonitor/recHits/hRHGlobalm1 -d /StreamExpress/Run2024D-Express-v1/DQMIO -t h2d -p /lustrehome/mbuonsante/miniconda3 -c MEProd --min_run 380210 --max_run 380294 --n_splits 1 --outputdir test
+```
+
+To ensure that all the jobs have finished, use:
+```=shell
+grep "Done:" "outputdir"/log/*.out | wc -l
+```
+:::warning
+If you get the error:
+
+`ImportError: cannot import name 'MutableMapping' from 'collections' `
+
+Modify `classad/_expression.py` changing `from collections import MutableMapping` with `from collections.abc import MutableMapping`
+:::
+
+## Fetch image info
+:::warning
+Requires a working conda installation
+:::
+```=shell
+conda create --name PrePro python=3.9
+conda activate PrePro
+pip3 install -r requirementsPrePro.txt 
+```
+Follow the "Authentication Prerequisites" instructions on [runregistry_api_client](https://github.com/cms-DQM/runregistry_api_client). Then follow [oms-api-client](https://gitlab.cern.ch/cmsoms/oms-api-client) instructions. (You can use the same application for both runregistry and oms)
+Save the oms application credentials in a file named `config.yaml` with this structure:
+```=yaml
+APIClient:
+    client_ID: 'id_example'
+    Client_Secret: 'secret_example'
+```
+Run the notebook: `CSC_AE_getInfo.ipynb`
