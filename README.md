@@ -9,10 +9,10 @@ git colone https://github.com/Ma128-bit/ML4DQM.git
 ```=shell
 conda create --name MEProd python=3.9
 conda activate MEProd
-pip3 install -r requirementsMEProd.txt 
+pip3 install -r requirements_getME.txt 
 chmod +x submit.sh
 ```
-Use `Submit_MEProductions.py` to submit the ME productions with **condor**. List of arguments:
+Use `Submit_getMEwithDIALS.py` to submit the ME productions with **condor**. List of arguments:
 
 | Argument                   | Default    | Required | Description                                |
 | -------------------------- | :--------: | :------: | ------------------------------------------ |
@@ -30,7 +30,7 @@ Use `Submit_MEProductions.py` to submit the ME productions with **condor**. List
 
 Usage example:
 ```
-python3 Submit_MEProductions.py -m CSC/CSCOfflineMonitor/recHits/hRHGlobalm1 -d /StreamExpress/Run2024D-Express-v1/DQMIO -t h2d -p /lustrehome/mbuonsante/miniconda3 -c MEProd --min_run 380210 --max_run 380294 --n_splits 1 --outputdir test
+python3 Submit_getMEwithDIALS.py -m CSC/CSCOfflineMonitor/recHits/hRHGlobalm1 -d /StreamExpress/Run2024D-Express-v1/DQMIO -t h2d -p /lustrehome/mbuonsante/miniconda3 -c MEProd --min_run 380210 --max_run 380294 --n_splits 1 --outputdir test
 ```
 
 To ensure that all the jobs have finished, use:
