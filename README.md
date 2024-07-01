@@ -37,13 +37,13 @@ To ensure that all the jobs have finished, use:
 ```=shell
 grep "Done:" "outputdir"/log/*.out | wc -l
 ```
-:::warning
+**Note:**
 If you get the error:
 
 `ImportError: cannot import name 'MutableMapping' from 'collections' `
 
 Modify `classad/_expression.py` changing `from collections import MutableMapping` with `from collections.abc import MutableMapping`
-:::
+
 
 ## Fetch image info
 ```=shell
