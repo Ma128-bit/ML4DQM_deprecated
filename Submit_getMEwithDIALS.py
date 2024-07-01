@@ -97,7 +97,7 @@ eradef = {
 if args.era is not None:
     if args.era in eradef.keys():
         args.min_run = eradef[args.era][0]
-        args.max_run = eradef[args.era][0]
+        args.max_run = eradef[args.era][1]
     else:
         sys.exit("\n******** Input ERROR! ******** \nWrong era! \nUse this format: Run2024A. No v-X are allowed!") 
     
