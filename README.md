@@ -30,9 +30,8 @@ Use `Submit_getMEwithDIALS.py` to submit (with **condor**) the code, based on [d
 
 Usage example:
 ```
-python3 Submit_getMEwithDIALS.py -m CSC/CSCOfflineMonitor/recHits/hRHGlobalm4 \
--t h2d -p /lustrehome/mbuonsante/miniconda3 -c cmsdials --era Run2024E \
---n_splits 20 --outputdir hRHGlobalm4E
+python3 Submit_getMEwithDIALS.py -m CSC/CSCOfflineMonitor/recHits/hRHGlobalm4 -t h2d -p /lustrehome/mbuonsante/miniconda3 \
+-c cmsdials --era Run2024E --n_splits 20 --outputdir hRHGlobalm4E
 ```
 
 To ensure that all the jobs have finished, use:
