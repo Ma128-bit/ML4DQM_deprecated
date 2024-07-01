@@ -12,7 +12,7 @@ conda activate MEProd
 pip3 install -r requirements_getME.txt 
 chmod +x submit.sh
 ```
-Use `Submit_getMEwithDIALS.py` to submit the ME productions with **condor**. List of arguments:
+Use `Submit_getMEwithDIALS.py` to submit (with **condor**) the code, based on [dials_api](https://github.com/cms-DQM/dials-py), that gets the MEs. List of arguments:
 
 | Argument                   | Default    | Required | Description                                |
 | -------------------------- | :--------: | :------: | ------------------------------------------ |
