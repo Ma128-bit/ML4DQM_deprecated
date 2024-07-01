@@ -38,6 +38,7 @@ To ensure that all the jobs have finished, use:
 grep "Done:" "outputdir"/log/*.out | wc -l
 ```
 **Note:**
+
 If you get the error:
 
 `ImportError: cannot import name 'MutableMapping' from 'collections' `
