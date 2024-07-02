@@ -55,10 +55,9 @@ import sys
 sys.path.append('run registry site')
 sys.path.append('./oms-api-client')
 ```
-<div style="background-color: lightblue; padding: 10px; border-radius: 5px;">
-    Questo è un box colorato.
-</div>
 where `run registry site` is obtained usign: `pip show runregistry`
+
+
 ```=shell
 conda create --name PrePro python=3.9
 conda activate PrePro
