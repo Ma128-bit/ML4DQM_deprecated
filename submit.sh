@@ -20,8 +20,8 @@ fi
 
 pwd
 current_directory=$(pwd)
-cd ${miniconda_path}
-source etc/profile.d/conda.sh
+## cd ${miniconda_path}
+## source etc/profile.d/conda.sh
 cd ${current_directory}
 conda activate ${conda}
 
