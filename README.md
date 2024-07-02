@@ -65,6 +65,8 @@ sys.path.append('./oms-api-client')
 ```
 where `run registry site` is obtained usign: `pip show runregistry`
 
+**For all users:**
+
 Follow the "Authentication Prerequisites" instructions on [runregistry_api_client](https://github.com/cms-DQM/runregistry_api_client). Then follow [oms-api-client](https://gitlab.cern.ch/cmsoms/oms-api-client) instructions. (You can use the same application for both runregistry and oms)
 Save the oms application credentials in a file named `config.yaml` with this structure:
 ```=yaml
