@@ -48,6 +48,17 @@ Modify `classad/_expression.py` changing `from collections import MutableMapping
 
 
 ## Fetch image info
+**Note:**
+If you run the notebook on SWAN there is no need to follow the steps below. You only need to install oms-api-client and runregistry_api_client and import them as:
+```
+import sys
+sys.path.append('run registry site')
+sys.path.append('./oms-api-client')
+```
+<div style="background-color: lightblue; padding: 10px; border-radius: 5px;">
+    Questo è un box colorato.
+</div>
+where `run registry site` is obtained usign: `pip show runregistry`
 ```=shell
 conda create --name PrePro python=3.9
 conda activate PrePro
