@@ -56,6 +56,7 @@ pip3 install -r requirementsPrePro.txt
 ```
 
 **For SWAN notebook users:**
+
 There is no need to follow the steps above. You only need to install oms-api-client and runregistry_api_client (as below) and import them as:
 ```
 import sys
