@@ -75,13 +75,15 @@ class ResNetAE(nn.Module):
     '''
     Define the full ResNet autoencoder model
     '''
-    def __init__(self, in_channels, nblocks, fmaps):
+    def __init__(self, in_channels, nblocks, fmaps, img_size):
         super(ResNetAE, self).__init__()
 
         self.fmaps = fmaps
         self.nblocks = nblocks
         self.in_channels = in_channels
         
+        self.debug = False
+
         # Initialize encoding layers
         self.econv0 = nn.Sequential(nn.Conv2d(in_channels, fmaps[0], kernel_size=3, stride=1, padding=1), nn.ReLU())
         self.elayer1 = self.block_layers(self.nblocks, [fmaps[0],fmaps[0]], 'enc')
@@ -90,19 +92,28 @@ class ResNetAE(nn.Module):
         self.elayer4 = self.block_layers(1, [fmaps[1],fmaps[2]], 'enc')
         self.elayer5 = self.block_layers(self.nblocks, [fmaps[2],fmaps[2]], 'enc')
         
+        #initialize the sizes across the layers
+        self.size0 = list(img_size)
+        self.size2 = [int(np.floor(el*0.5)) for el in self.size0]
+        self.size4 = [int(np.ceil(el*0.5)) for el in self.size2]
+        self.size5 = [int(np.ceil(el*0.5)) for el in self.size4]
+        
+        if self.debug:
+            print(f"size0: {self.size0}")
+            print(f"size2: {self.size2}")
+            print(f"size4: {self.size4}")
+            print(f"size5: {self.size5}")
+
         # Initialize decoding layers
-        self.fc = nn.Linear(self.fmaps[-1], self.fmaps[-1]*5*7) # 5x5
+        self.fc = nn.Linear(self.fmaps[-1], self.fmaps[-1]*self.size5[0]*self.size5[1]) # 5x5
         self.dlayer5 = self.block_layers(self.nblocks, [fmaps[2],fmaps[2]], 'dec', out_shape=None)
-        self.dlayer4 = self.block_layers(1, [fmaps[2],fmaps[1]], 'dec', out_shape=(9,13))
+        self.dlayer4 = self.block_layers(1, [fmaps[2],fmaps[1]], 'dec', out_shape=self.size4)
         self.dlayer3 = self.block_layers(self.nblocks, [fmaps[1],fmaps[1]], 'dec', out_shape=None)
-        self.dlayer2 = self.block_layers(1, [fmaps[1],fmaps[0]], 'dec', out_shape=(17,25))
+        self.dlayer2 = self.block_layers(1, [fmaps[1],fmaps[0]], 'dec', out_shape=self.size2)
         self.dlayer1 = self.block_layers(self.nblocks, [fmaps[0],fmaps[0]], 'dec', out_shape=None)
         self.dconv0 = nn.ConvTranspose2d(fmaps[0], in_channels, kernel_size=3, stride=1, padding=(1,1))
         self.dconv0_relu = nn.ReLU(inplace=True)
         
-        self.debug = False
-        #self.debug = True
-
     def block_layers(self, nblocks, fmaps, state, out_shape=None):
         '''
         Convenience function: append several resnet blocks in sequence
@@ -150,7 +161,7 @@ class ResNetAE(nn.Module):
         if self.debug: print(x.size())
         #x = x.view(-1, self.fmaps[1], 4, 9) 
         #x = x.view(-1, self.fmaps[1], 9, 18) 
-        x = x.view(-1, self.fmaps[-1], 5, 7) 
+        x = x.view(-1, self.fmaps[-1], self.size5[0],self.size5[1])
         if self.debug: print(x.size())        
         
         # Decoding
@@ -166,9 +177,9 @@ class ResNetAE(nn.Module):
         x = self.dlayer1(x)
         if self.debug: print(x.size())
         
-        x = F.interpolate(x, scale_factor=2)
+        x = F.interpolate(x, size=list(self.size0))
         if self.debug: print(x.size())
-        x = self.dconv0(x, output_size=(x.size()[0], self.in_channels, 34, 50))
+        x = self.dconv0(x, output_size=(x.size()[0], self.in_channels, self.size0[0], self.size0[1]))
         if self.debug: print(x.size())
         x = self.dconv0_relu(x)
             
