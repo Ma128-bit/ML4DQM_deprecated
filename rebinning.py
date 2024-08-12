@@ -1,7 +1,8 @@
 import numpy as np
 from collections import defaultdict
 import copy
-
+from scipy import signal
+import math
 
 def draw_slice(start_angle, end_angle, image, center, value):
     """
@@ -194,3 +195,67 @@ def _greedy_coloring(neighbors, num_colors):
         available_colors = set(range(num_colors)) - used_colors
         color_assignment[region] = min(available_colors) if available_colors else None
     return color_assignment
+
+
+def XY_to_Polar(img): #No longer used
+    """
+    Function to change the coordinates of a matrix from (X, Y) to (r, θ).
+    """
+    imgpolar = np.zeros((34, round(8*(2*math.pi))), dtype=np.float32)
+    center = (49.5, 49.5)
+    for i in range(100):
+        for j in range(100):
+            if(img[i,j]!=0):
+                dist = np.sqrt((i-center[0])**2+(j-center[1])**2) -11
+                theta = np.arctan2((j-center[1]), (i-center[0]))
+                theta = theta + math.pi
+                try:
+                    if round(theta*8) == round(8*(2*math.pi)):
+                        imgpolar[round(dist), 0] += img[i,j]
+                    else:
+                        imgpolar[round(dist), round(theta*8)] += img[i,j]
+                except:
+                    pass
+    imgpolar[33,:]=0
+    return imgpolar
+
+
+def rebin_rect(rect, nrows): #No longer used
+    #nrows is the number of rows to be summed together
+    
+    #if the rectangle cannot be equally divided into groups of nrows,
+    #the last group will have n_last rows
+    
+    n_groups = rect.shape[0]//nrows
+    n_last = rect.shape[0] % nrows
+    
+    main_kernel = np.ones((nrows, 1))
+    final_kernel = np.ones((n_last,1))
+    
+    #main_rects[i] are the groups of nrows
+    if n_last != 0:
+        rebinned_rect = np.zeros((n_groups+1,rect.shape[1]))
+        main_rects = rect[:-n_last].reshape(n_groups, nrows, rect.shape[1])
+    else:
+        rebinned_rect = np.zeros((n_groups,rect.shape[1]))
+        main_rects = rect.reshape(n_groups, nrows, rect.shape[1])
+    
+    #summing for the well-divided groups
+    for i in range(0,n_groups):
+        rebinned_rect[i] = signal.convolve2d(main_rects[i], main_kernel, mode='valid')
+        
+    #summing for last group, if present
+    if n_last != 0:
+        rebinned_rect[-1] = signal.convolve2d(rect[-n_last:],final_kernel,mode='valid')
+        
+    return rebinned_rect
+
+
+def rebin_whole(rect,upper_row, nrows_upper, nrows_lower): #No longer used
+    upper_rect = rect[upper_row:,]
+    lower_rect = rect[:upper_row,]
+    rebinned_upper = rebin_rect(upper_rect,nrows_upper)
+    rebinned_lower = rebin_rect(lower_rect,nrows_lower)
+    
+    combined_rect = np.vstack((rebinned_lower, rebinned_upper))
+    return combined_rect
