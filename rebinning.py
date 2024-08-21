@@ -38,7 +38,7 @@ def draw_wheels(radius, sub_divisions):
     of the wheel. The main-slices are 10 degrees wide and the sub-divisions
     determine the number of slices in each of the main-slices.
     """
-    img = np.zeros((2 * radius, 2 * radius), dtype=np.uint16)
+    img = np.zeros((2 * radius, 2 * radius), dtype=np.int16)
     center = (radius - 0.5, radius - 0.5)
 
     start_angles = station_angles(sub_divisions)
@@ -104,7 +104,7 @@ def make_concentric_disks(radius, radii):
     Given a radius and a number of divisions, it draws a disk with concentric
     circles with the number of divisions.
     """
-    img = np.zeros((2 * radius, 2 * radius), dtype=np.uint16)
+    img = np.zeros((2 * radius, 2 * radius), dtype=np.int16)
     radii = np.sort(radii)[::-1]
 
     for i, r in enumerate(radii):
