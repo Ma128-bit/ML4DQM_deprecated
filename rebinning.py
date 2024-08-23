@@ -83,7 +83,7 @@ def station3_boundaries():
     Returns the inner radius (hole) and the outer radius of the station 3.
     Determined with the method of 'a occhio'
     """
-    return 22.0, 43.5
+    return 21, 44
 
 
 def station_radii(divisions):
