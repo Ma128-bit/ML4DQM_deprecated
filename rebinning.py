@@ -4,6 +4,7 @@ import copy
 from scipy import signal
 import math
 
+
 def draw_slice(start_angle, end_angle, image, center, value):
     """
     Given an image, and a center, it draws a pie-like slice
@@ -84,6 +85,36 @@ def station3_boundaries():
     Determined with the method of 'a occhio'
     """
     return 21, 44
+
+
+def make_rebin_regions(
+    mean_matrix, inner_radius, outer_radius, wheel_division, radial_division
+):
+    empty_img = np.zeros_like(mean_matrix, dtype=np.int16)
+    hole = make_disk(empty_img, inner_radius, 1)
+    hole = np.abs(hole - 1)
+    hole *= make_disk(empty_img, outer_radius, 1)
+
+    radii = np.linspace(inner_radius, outer_radius, radial_division + 1)
+    radii = np.floor(radii * 2) / 2
+
+    slices = draw_wheels(mean_matrix.shape[0] // 2, wheel_division)
+    conc_disks = make_concentric_disks(
+        mean_matrix.shape[0] // 2,
+        radii,
+    )
+    regions = slices * conc_disks * hole
+
+    # here define good area mask
+    # inner_disk fills everything just barely out of outer_radius
+    inner_disk = make_disk(np.zeros((100, 100)), outer_radius - 1, 1)
+    # using mean_matrix is for borders close to outer_radius where
+    # the disk-making-function and the data disagree in shape
+    good_area_mask = np.where(mean_matrix + inner_disk != 0, 1, 0)
+
+    regions *= good_area_mask
+
+    return regions
 
 
 def station_radii(divisions):
