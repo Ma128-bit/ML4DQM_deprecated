@@ -44,7 +44,7 @@ def Show1Dimg(vx, vy, xfit=None, yfit=None, x=r"Lumi [10$^{33}$ cm$^{-2}$ s$^{-1
     plt.rc('ytick', labelsize='12')
     plt.title(r'$\mathbf{CMS}\ \mathit{Private\ work}$', x=0.24, y=1.0, size=14)
     #plt.title('CMS', fontweight='bold',x=0.12, y=1.0, size=14)
-    plt.title('2023 (13.6 TeV)',loc='right', size=14)
+    plt.title('2024 (13.6 TeV)',loc='right', size=14)
     plt.legend()
     plt.show()
     
