@@ -75,9 +75,6 @@ APIClient:
     Client_Secret: 'secret_example'
 ```
 
-Run the notebook: `CSC_AE_getInfo.ipynb`
-
-## Pre-processing
 ```=shell
 conda activate PrePro
 ```
