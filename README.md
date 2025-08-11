@@ -1,7 +1,11 @@
+> **⚠️ WARNING: This repository is deprecated.**  
+> Development has moved to [ML4DQM](https://github.com/Ma128-bit/ML4DQM). Please use the new repository for the latest updates and bug fixes.
+
+
 # Training DQM Tool for CSC
 
 ```
-git clone https://github.com/Ma128-bit/ML4DQM.git
+git clone https://github.com/Ma128-bit/ML4DQM_deprecated.git
 ```
 
 ## Get Monitoring elements (ME)
